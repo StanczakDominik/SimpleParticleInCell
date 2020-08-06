@@ -1,5 +1,7 @@
 # SimpleParticleInCell
 
+Simple particle in cell code.
+
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://StanczakDominik.github.io/SimpleParticleInCell.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://StanczakDominik.github.io/SimpleParticleInCell.jl/dev)
 [![Build Status](https://github.com/StanczakDominik/SimpleParticleInCell.jl/workflows/CI/badge.svg)](https://github.com/StanczakDominik/SimpleParticleInCell.jl/actions)
