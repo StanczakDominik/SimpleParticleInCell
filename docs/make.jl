@@ -18,4 +18,5 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/StanczakDominik/SimpleParticleInCell.jl",
+    devurl="docs",
 )
