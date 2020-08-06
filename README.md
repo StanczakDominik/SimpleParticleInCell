@@ -5,4 +5,4 @@
 [![Build Status](https://github.com/StanczakDominik/SimpleParticleInCell.jl/workflows/CI/badge.svg)](https://github.com/StanczakDominik/SimpleParticleInCell.jl/actions)
 [![Coverage](https://codecov.io/gh/StanczakDominik/SimpleParticleInCell.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/StanczakDominik/SimpleParticleInCell.jl)
 
-Simple particle in cell code. 
+Simple particle in cell code. Test repo.
