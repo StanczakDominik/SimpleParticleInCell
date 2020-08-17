@@ -2,5 +2,7 @@ using SimpleParticleInCell
 using Test
 
 @testset "SimpleParticleInCell.jl" begin
-    # Write your tests here.
+    world = SimpleParticleInCell.World([0,0,0], [1,1,1], [4,4,4])
+    @test world.mesh_origin == [0,0,0]
+    @test world.cell_spacing == [1., 1., 1.]
 end

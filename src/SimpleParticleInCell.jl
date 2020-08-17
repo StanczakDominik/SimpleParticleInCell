@@ -1,5 +1,10 @@
 module SimpleParticleInCell
+    using StaticArrays
 
-# Write your package code here.
+    struct World
+        mesh_origin :: SVector{3}
+        cell_spacing :: SVector{3}
+        number_cells ::SVector{3, Int}
+    end
 
 end
