@@ -1,11 +1,18 @@
 using SimpleParticleInCell
 using Test
 
-@testset "SimpleParticleInCell.jl" begin
+@testset "SimpleParticleInCell.jl::World" begin
     world = SimpleParticleInCell.World([0.0,0.0,0.0],
                                        [1.0,1.0,1.0], 
-                                       [4,4,4],
+                                       (4,4,4),
                                        )
     @test world.mesh_origin == [0,0,0]
     @test world.cell_spacing == [0.25, 0.25, 0.25]
+    @test all(world.electric_potential .== 0)
+    @test all(world.electric_field .== 0)
+    @test all(world.charge_density .== 0)
+
+    @test all(size(world.charge_density) .== world.number_cells)
+    @test all(size(world.electric_potential) .== world.number_cells)
+    @test all(size(world.electric_field) .== (world.number_cells..., 3))
 end
