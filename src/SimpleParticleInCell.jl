@@ -47,7 +47,6 @@ module SimpleParticleInCell
         mass :: Float64
         charge :: Float64
         density :: Array{Float64, 3}
-
         particles :: Array{Particle, 1}
 
         function Species(
@@ -89,7 +88,39 @@ module SimpleParticleInCell
     end
 
     function scatter(field::Array,
-                     location::Array)
-        error("TODO unimplemented")
+                     location,
+                     value::Float64,
+                     world::World,
+                    )
+        if any((location .< 1) .| (world.number_cells .< location))
+            return
+        end
+
+        indices = floor.(Int, location) .+ 1
+        fractional_distances = location - indices
+
+        i, j, k = indices
+        di, dj, dk = fractional_distances
+
+        # TODO verify this part. Maybe even automate it
+        field[i,j,k] += value * (1 - di) * (1 - dj) * (1 - dk)
+        field[i+1,j,k] += value * di * (1 - dj) * (1 - dk)
+        field[i+1,j+1,k] += value * di * dj * (1-dk)
+        field[i,j+1,k] += value * (1-di) * dj * (1 - dk)
+        field[i,j,k+1] += value * (1-di) * (1-dj) * dk
+        field[i+1,j,k+1] += value * di * (1-dj) * dk
+        field[i+1,j+1,k+1] += value * di * dj * dk
+        field[i,j+1,k+1] += value * (1-di) * dj * dk
     end
+
+    function compute_number_density(species::Species,
+                                    world::World)
+        species.density .= 0
+        for particle in species.particles
+            location = X_to_L(particle, world)
+            scatter(species.density, location, particle.mpw, world)
+        end
+    end
+
+        # species.density ./= world.node_volume  # TODO
 end
