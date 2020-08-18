@@ -24,4 +24,9 @@ using Test
     @test size(electrons.density) == world.number_cells
     @test all(electrons.density .== 0)
     @test length(electrons.particles) == 0
+
+    electron = SimpleParticleInCell.Particle([0., 0., 0.], [1., -1., 2.], 1.)
+    push!(electrons.particles, electron)
+    @test length(electrons.particles) == 1
+    
 end
