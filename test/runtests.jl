@@ -5,6 +5,8 @@ using Test
     world = SimpleParticleInCell.World([0.0,0.0,0.0],
                                        [1.0,1.0,1.0], 
                                        (4,4,4),
+                                       0.1,
+                                       10
                                        )
     @test world.mesh_origin == [0,0,0]
     @test world.cell_spacing == [0.25, 0.25, 0.25]
@@ -15,4 +17,10 @@ using Test
     @test all(size(world.charge_density) .== world.number_cells)
     @test all(size(world.electric_potential) .== world.number_cells)
     @test all(size(world.electric_field) .== (world.number_cells..., 3))
+    @test world.timestep == 0.1
+    @test world.number_timesteps == 10
+
+    electrons = SimpleParticleInCell.Species("e-", 1.0, -1.0, world)
+    @test size(electrons.density) == world.number_cells
+    @test all(electrons.density .== 0)
 end

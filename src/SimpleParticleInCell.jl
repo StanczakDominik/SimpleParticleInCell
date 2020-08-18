@@ -1,10 +1,11 @@
 module SimpleParticleInCell
     using StaticArrays
 
+
     struct World
         mesh_origin :: SVector{3, Float64}
         cell_spacing :: SVector{3, Float64}
-        number_cells ::SVector{3, Int}
+        number_cells ::Tuple{Int, Int, Int}
 
         charge_density :: Array{Float64, 3}
         electric_potential :: Array{Float64, 3}
@@ -34,4 +35,24 @@ module SimpleParticleInCell
         end
     end
 
+    struct Species
+        symbol :: String
+        mass :: Float64
+        charge :: Float64
+        density :: Array{Float64, 3}
+
+        function Species(
+                         symbol :: String,
+                         mass :: Float64,
+                         charge :: Float64,
+                         world :: World,
+                        )
+            new(
+                symbol,
+                mass,
+                charge,
+                zeros(Float64, world.number_cells),
+               )
+        end
+    end
 end
