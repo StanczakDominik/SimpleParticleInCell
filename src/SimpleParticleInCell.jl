@@ -85,7 +85,7 @@ module SimpleParticleInCell
     end
 
     function X_to_L(particle :: Particle, world::World)
-        error("TODO unimplemented")
+        return (particle.position .- world.mesh_origin) ./ world.cell_spacing
     end
 
     function scatter(field::Array,
