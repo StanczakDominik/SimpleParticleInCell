@@ -28,5 +28,8 @@ using Test
     electron = SimpleParticleInCell.Particle([0., 0., 0.], [1., -1., 2.], 1.)
     push!(electrons.particles, electron)
     @test length(electrons.particles) == 1
+
+    @test SimpleParticleInCell.solve_potential(world)
+    @test SimpleParticleInCell.compute_electric_field(world)
     
 end

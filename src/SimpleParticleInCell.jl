@@ -65,4 +65,31 @@ module SimpleParticleInCell
                )
         end
     end
+
+    function solve_potential(world::World)
+        # @show world
+        error("TODO unimplemented")
+    end
+
+    function compute_electric_field(world :: World)
+        # @show world
+        error("TODO unimplemented")
+    end
+
+    function load_particles_box(species::Species, world::World)
+        error("TODO unimplemented")
+    end
+    
+    function compute_box_volumes(world::World)
+        error("TODO unimplemented")
+    end
+
+    function X_to_L(particle :: Particle, world::World)
+        error("TODO unimplemented")
+    end
+
+    function scatter(field::Array,
+                     location::Array)
+        error("TODO unimplemented")
+    end
 end
