@@ -10,10 +10,15 @@ module SimpleParticleInCell
         electric_potential :: Array{Float64, 3}
         electric_field :: Array{Float64, 4}
 
+        timestep :: Real
+        number_timesteps :: Int
+
         function World(
                        r1 :: Vector,
                        r2 :: Vector,
                        number_cells :: Tuple{Int, Int, Int},
+                       timestep :: Number,
+                       number_timesteps :: Int,
                       )
             cell_spacing = (r2 .- r1) ./ number_cells
             new(
@@ -22,7 +27,9 @@ module SimpleParticleInCell
                 number_cells,
                 zeros(Float64, number_cells),
                 zeros(Float64, number_cells),
-                zeros(Float64, (number_cells..., 3))
+                zeros(Float64, (number_cells..., 3)),
+                timestep,
+                number_timesteps,
                )
         end
     end
