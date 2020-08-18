@@ -35,11 +35,20 @@ module SimpleParticleInCell
         end
     end
 
+    struct Particle
+        position :: SVector{3, Float64}
+        velocity :: SVector{3, Float64}
+        mpw :: Float64
+    end
+
+
     struct Species
         symbol :: String
         mass :: Float64
         charge :: Float64
         density :: Array{Float64, 3}
+
+        particles :: Array{Particle, 1}
 
         function Species(
                          symbol :: String,
@@ -52,6 +61,7 @@ module SimpleParticleInCell
                 mass,
                 charge,
                 zeros(Float64, world.number_cells),
+                Particle[],
                )
         end
     end

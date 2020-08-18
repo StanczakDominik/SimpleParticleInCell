@@ -23,4 +23,5 @@ using Test
     electrons = SimpleParticleInCell.Species("e-", 1.0, -1.0, world)
     @test size(electrons.density) == world.number_cells
     @test all(electrons.density .== 0)
+    @test length(electrons.particles) == 0
 end
