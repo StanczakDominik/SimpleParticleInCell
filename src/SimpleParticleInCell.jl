@@ -96,21 +96,23 @@ module SimpleParticleInCell
             return
         end
 
-        indices = floor.(Int, location) .+ 1
+        indices = floor.(Int, location)
         fractional_distances = location - indices
 
-        i, j, k = indices
+        i, j, k = indices .- 1
         di, dj, dk = fractional_distances
 
-        # TODO verify this part. Maybe even automate it
-        field[i,j,k] += value * (1 - di) * (1 - dj) * (1 - dk)
-        field[i+1,j,k] += value * di * (1 - dj) * (1 - dk)
-        field[i+1,j+1,k] += value * di * dj * (1-dk)
-        field[i,j+1,k] += value * (1-di) * dj * (1 - dk)
-        field[i,j,k+1] += value * (1-di) * (1-dj) * dk
-        field[i+1,j,k+1] += value * di * (1-dj) * dk
-        field[i+1,j+1,k+1] += value * di * dj * dk
-        field[i,j+1,k+1] += value * (1-di) * dj * dk
+        for (ii, DI) in enumerate([1-di, di])
+            iindex = i + ii
+            for (jj, DJ) in enumerate([1-dj, dj])
+                jindex = j + jj
+                for (kk, DK) in enumerate([1-dk, dk])
+                    kindex = k + kk
+                    # @show iindex jindex kindex
+                    field[iindex, jindex, kindex] += value * DI * DJ * DK
+                end
+            end
+        end
     end
 
     function compute_number_density(species::Species,
@@ -118,7 +120,9 @@ module SimpleParticleInCell
         species.density .= 0
         for particle in species.particles
             location = X_to_L(particle, world)
+            # @show particle_index location
             scatter(species.density, location, particle.mpw, world)
+            # @show species.density
         end
     end
 

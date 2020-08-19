@@ -40,7 +40,14 @@ using Test
     electron_shifted = SimpleParticleInCell.Particle([0.5, 0.5, 0.5], [0., 0., 0.], 1.)
     push!(electrons.particles, electron_shifted)
     SimpleParticleInCell.compute_number_density(electrons, world)
-    @show electrons.density
+    @test sum(electrons.density .== 1) == 1
+    @test sum(electrons.density) == 1
+    electron_shifted2 = SimpleParticleInCell.Particle([0.625, 0.625, 0.625], [0., 0., 0.], 1.)
+    push!(electrons.particles, electron_shifted2)
+    SimpleParticleInCell.compute_number_density(electrons, world)
+    @test sum(electrons.density .> 0) == 8
+    @test sum(electrons.density) == 2
+    # @show electrons.density
 
     # @test SimpleParticleInCell.solve_potential(world)
     # @test SimpleParticleInCell.compute_electric_field(world)
