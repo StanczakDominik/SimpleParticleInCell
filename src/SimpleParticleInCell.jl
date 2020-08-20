@@ -11,6 +11,8 @@ module SimpleParticleInCell
         electric_potential :: Array{Float64, 3}
         electric_field :: Array{Float64, 4}
 
+        node_volumes :: Array{Float64, 3}
+
         timestep :: Real
         number_timesteps :: Int
 
@@ -22,6 +24,8 @@ module SimpleParticleInCell
                        number_timesteps :: Int,
                       )
             cell_spacing = (r2 .- r1) ./ number_cells
+            node_volumes = zeros(Float64, number_cells)
+            compute_node_volumes(node_volumes, number_cells, cell_spacing)
             new(
                 r1,
                 cell_spacing,
@@ -29,6 +33,7 @@ module SimpleParticleInCell
                 zeros(Float64, number_cells),
                 zeros(Float64, number_cells),
                 zeros(Float64, (number_cells..., 3)),
+                node_volumes,
                 timestep,
                 number_timesteps,
                )
@@ -115,6 +120,29 @@ module SimpleParticleInCell
         end
     end
 
+    function compute_node_volumes(node_volumes, number_cells, cell_spacing)
+        ni, nj, nk = number_cells
+        for i in range(1, length=ni)
+            for j in range(1, length=nj)
+                for k in range(1, length=nk)
+                    V = reduce(*, cell_spacing)
+                    if (i == 1 || i == ni)
+                        V *= 0.5
+                    end
+                    if (j == 1 || j == nj)
+                        V *= 0.5
+                    end
+                    if (k == 1 || k == nk)
+                        V *= 0.5
+                    end
+
+                    node_volumes[i,j,k] = V
+                end
+            end
+        end
+    end
+
+
     function compute_number_density(species::Species,
                                     world::World)
         species.density .= 0
@@ -124,7 +152,7 @@ module SimpleParticleInCell
             scatter(species.density, location, particle.mpw, world)
             # @show species.density
         end
+        species.density ./= world.node_volumes
     end
 
-        # species.density ./= world.node_volume  # TODO
 end
